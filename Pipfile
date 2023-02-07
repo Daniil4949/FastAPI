@@ -4,6 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+fastapi = "*"
+fastapi-sqlalchemy = "*"
+pydantic = "*"
+alembic = "*"
+psycopg2-binary = "*"
+uvicorn = "*"
+importlib-resources = "*"
+python-dotenv = "*"
+databases = {extras = ["postgresql"], version = "*"}
+asyncpg = "*"
 
 [dev-packages]
 

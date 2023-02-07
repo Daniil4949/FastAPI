@@ -1,12 +1,21 @@
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import uvicorn
+from models import User as ModelUser
+from schema import User as SchemaUser
+from app import app
+from db import db
 
 
+@app.post("/user/")
+async def create_user(user: SchemaUser):
+    user_id = await ModelUser.create(**user.dict())
+    return {"user_id": user_id}
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+@app.get("/user/{id}", response_model=SchemaUser)
+async def get_user(id: int):
+    user = await ModelUser.get(id)
+    return SchemaUser(**user).dict()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
