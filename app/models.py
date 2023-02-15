@@ -27,6 +27,12 @@ class User:
         return user
 
     @classmethod
+    async def get_by_email(cls, username):
+        query = users.select().where(users.c.email == username)
+        user = await db.fetch_one(query)
+        return user
+
+    @classmethod
     async def create(cls, **user):
         salt = bcrypt.gensalt()
         hash_password = bcrypt.hashpw(user['password'].encode("utf-8"), salt)

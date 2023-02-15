@@ -3,7 +3,7 @@ from app.utils import get_hashed_password
 
 
 class TokenPayload(BaseModel):
-    sub: int = None
+    sub: str = None
     exp: int = None
 
 
