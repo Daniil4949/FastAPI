@@ -38,7 +38,7 @@ async def get_current_user(token: str = Depends(reuseable_oauth)) -> SystemUser:
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    user = await ModelUser.get(token_data.sub)
+    user = await ModelUser.get_by_email(token_data.sub)
 
     if user is None:
         raise HTTPException(
