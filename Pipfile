@@ -18,6 +18,10 @@ kafka-python = "*"
 confluent-kafka = "*"
 faker = "*"
 aio-pika = "*"
+bcrypt = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
+passlib = {extras = ["bcrypt"], version = "*"}
+python-multipart = "*"
 
 [dev-packages]
 
