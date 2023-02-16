@@ -2,16 +2,18 @@ import uvicorn
 from app.models import User as ModelUser
 from app.schema import User as SchemaUser, UserOut, TokenSchema, SystemUser
 from app.app_conf import app
-from app.utils import verify_password, get_hashed_password, \
+from app.utils import verify_password, \
     create_access_token, create_refresh_token
-from fastapi import FastAPI, status, HTTPException, Depends
+from fastapi import status, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from app.deps import get_current_user
+from produce import send_info
 
 
 @app.post("/sign_up/")
 async def create_user(user: SchemaUser):
     user_id = await ModelUser.create(**user.dict())
+    await send_info(f"{user_id} User created".encode())
     return {"user_id": user_id}
 
 
@@ -35,7 +37,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Incorrect password"
         )
-
+    await send_info(f"{user['id']} User login".encode())
     return {
         "access_token": create_access_token(user['email']),
         "refresh_token": create_refresh_token(user['email']),
